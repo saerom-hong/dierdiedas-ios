@@ -15,10 +15,10 @@ export default function RootLayout() {
           headerTintColor: theme.text,
         }}
       >
-        <Stack.Screen name="(level)/level" options={{ title: 'Level' }} />
-        <Stack.Screen name="(play)/play" options={{ title: 'Play' }} />
+        <Stack.Screen name="/(level)/level" options={{ title: 'Level' }} />
+        <Stack.Screen name="/(play)/play" options={{ title: 'Play' }} />
         <Stack.Screen
-          name="(complete)/complete"
+          name="/(complete)/complete"
           options={{ title: 'Complete' }}
         />
         <Stack.Screen name="index" options={{ title: 'Home' }} />
