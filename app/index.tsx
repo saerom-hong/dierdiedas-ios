@@ -12,6 +12,10 @@ const Home = () => {
       <Link href="/level" style={styles.link}>
         <ThemedText style={styles.buttonText}>Play Game</ThemedText>
       </Link>
+      {/* Temporary link for testing - remove in production */}
+      <Link href="/complete" style={[styles.link, styles.testLink]}>
+        <ThemedText style={styles.buttonText}>Test Complete Screen</ThemedText>
+      </Link>
     </ThemedView>
   );
 };
@@ -33,6 +37,10 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     marginTop: 20,
+  },
+  testLink: {
+    backgroundColor: '#ff6b6b', // Different color to distinguish it
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',
