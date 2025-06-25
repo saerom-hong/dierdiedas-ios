@@ -1,11 +1,12 @@
 export const Colors = {
   primary: "#347433",
-  warning: "#cc475a",
-  text: "#625f72",
+  secondary: "#FF6F00",
+  text: "#FFFFFF",
+  chip_color_der: "#DF2B20",
+  chip_color_die: "#F3C12F",
+  chip_color_das: "#36C83B",
   title: "#201e2b",
-  background: "#FFC107",
-  navBackground: "#e8e7ef",
-  iconColor: "#686477",
-  iconColorFocused: "#201e2b",
-  uiBackground: "#d6d5e1",
-}
+  background: "#045CE6",
+  background_wordbox: "#363952",
+  background_placeholder: "#ececec",
+};

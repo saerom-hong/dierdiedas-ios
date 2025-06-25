@@ -1,17 +1,22 @@
-import { Text } from 'react-native'
-import { Colors } from '../constants/Colors'
+import { Text } from 'react-native';
+import { Colors } from '../constants/Colors';
+import { useFontContext } from '../contexts/FontContext';
 
-const ThemedText = ({ style, title = false, ...props }) => {
-  const theme = Colors
+const ThemedText = ({ style, ...props }) => {
+  const { fontsLoaded } = useFontContext();
 
-  const textColor = title ? theme.title : theme.text
+  if (!fontsLoaded) {
+    return null;
+  }
+  
+  const theme = Colors;
 
   return (
     <Text 
-      style={[{ color: textColor }, style]}
+      style={[{ color: theme.text, fontSize: 18, fontFamily: 'Tomorrow_400Regular' }, style]}
       {...props}
     />
-  )
-}
+  );
+};
 
-export default ThemedText
+export default ThemedText;

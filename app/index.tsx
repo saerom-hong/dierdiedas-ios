@@ -8,13 +8,11 @@ import { Colors } from '@/constants/Colors';
 const Home = () => {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>DerDieDas</ThemedText>
+      <ThemedText title style={styles.title}>
+        DerDieDas
+      </ThemedText>
       <Link href="/level" style={styles.link}>
         <ThemedText style={styles.buttonText}>Play Game</ThemedText>
-      </Link>
-      {/* Temporary link for testing - remove in production */}
-      <Link href="/complete" style={[styles.link, styles.testLink]}>
-        <ThemedText style={styles.buttonText}>Test Complete Screen</ThemedText>
       </Link>
     </ThemedView>
   );
@@ -25,18 +23,20 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: 250,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 40,
+    fontFamily: 'Tomorrow_700Bold',
+    color: Colors.text,
   },
   link: {
     backgroundColor: Colors.primary,
     padding: 15,
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 50,
   },
   testLink: {
     backgroundColor: '#ff6b6b', // Different color to distinguish it

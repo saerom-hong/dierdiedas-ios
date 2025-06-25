@@ -11,5 +11,11 @@ export enum GermanArticles {
   Das = "Das",
 }
 
+export interface VocabularyItem {
+  word: string;
+  article: string;
+  translation: string;
+}
+
 export const GERMAN_LEVELS = Object.values(GermanLevel);
 export const GERMAN_ARTICLES = Object.values(GermanArticles); 

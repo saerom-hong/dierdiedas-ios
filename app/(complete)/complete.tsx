@@ -14,13 +14,10 @@ const Complete = () => {
     <ThemedView style={styles.container}>
       <ThemedText style={styles.title}>Congratulations!</ThemedText>
       <ThemedText style={styles.subtitle}>
-        You have completed the level {level}
+        You have completed the level{' '}
+        <ThemedText style={styles.boldText}>{level}</ThemedText>
       </ThemedText>
-      <ThemedLink
-        href="/level"
-        style={styles.button}
-        textStyle={styles.buttonText}
-      >
+      <ThemedLink href="/level" style={styles.button}>
         Play Again
       </ThemedLink>
     </ThemedView>
@@ -38,21 +35,22 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 40,
-    fontWeight: 'bold',
+    fontFamily: 'Tomorrow_600SemiBold',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: 'Tomorrow_400Regular',
     marginBottom: 20,
+  },
+  boldText: {
+    fontFamily: 'Tomorrow_600SemiBold',
   },
   button: {
     backgroundColor: Colors.primary,
-    padding: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     borderRadius: 5,
     marginTop: 20,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: 'white',
   },
 });
