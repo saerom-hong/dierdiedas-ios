@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 
 import ThemedLink from '@/components/ThemedLink';
@@ -6,13 +6,22 @@ import ThemedText from '@/components/ThemedText';
 import ThemedView from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useLocalSearchParams } from 'expo-router';
+import LottieView from 'lottie-react-native';
 
 const Complete = () => {
+  const animation = useRef<LottieView>(null);
   const { level } = useLocalSearchParams<{ level: string }>();
 
   return (
     <ThemedView style={styles.container}>
       <ThemedText style={styles.title}>Congratulations!</ThemedText>
+      <LottieView
+        ref={animation}
+        source={require('@/assets/animation/confetti.json')}
+        autoPlay
+        loop
+        style={styles.confetti}
+      />
       <ThemedText style={styles.subtitle}>
         You have completed the level{' '}
         <ThemedText style={styles.boldText}>{level}</ThemedText>
@@ -33,6 +42,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 200,
   },
+  confetti: {
+    width: 500,
+    height: 500,
+    marginVertical: 20,
+    position: 'absolute',
+    top: 0,
+    left: -50,
+    right: 0,
+    bottom: 0,
+  },
   title: {
     fontSize: 40,
     fontFamily: 'Tomorrow_600SemiBold',
@@ -51,6 +70,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 100,
   },
 });
