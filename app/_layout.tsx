@@ -19,7 +19,7 @@ export default function RootLayout() {
       >
         <Stack.Screen
           name="(level)/level"
-          options={{ headerShown: true, title: 'Level' }}
+          options={{ headerShown: false, title: 'Level' }}
         />
         <Stack.Screen name="(play)/play" options={{ headerShown: false }} />
         <Stack.Screen

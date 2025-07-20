@@ -1,9 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
 
 import { Colors } from '../constants/Colors';
 import ThemedText from './ThemedText';
@@ -11,55 +7,72 @@ import ThemedText from './ThemedText';
 type WordBoxProps = {
   word: string;
   correctArticle: string;
-  onDrop?: (article: string) => void;
+  isCorrect: boolean;
+  onDrop?: (article: string, isCorrect: boolean) => void;
+  isDragOver?: boolean;
 };
 
-const WordBox = ({ word, correctArticle, onDrop }: WordBoxProps) => {
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-    };
-  });
+const WordBox = ({
+  word,
+  isDragOver = false,
+  isCorrect = false,
+}: WordBoxProps) => {
+  const viewRef = useRef<View>(null);
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.box, animatedStyle]}>
-        <View style={styles.placeholder} />
-        <ThemedText style={styles.word}>{word}</ThemedText>
-      </Animated.View>
+      <View style={styles.box}>
+        <View ref={viewRef} style={styles.placeholder} />
+        <ThemedText style={styles.word} numberOfLines={2} adjustsFontSizeToFit>
+          {word}
+        </ThemedText>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    padding: 20,
+    width: '90%',
+    marginTop: 50,
+    maxWidth: 350,
   },
   box: {
-    backgroundColor: Colors.background,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    borderRadius: 10,
-    padding: 20,
-    minHeight: 100,
+    backgroundColor: Colors.background_wordbox,
+    borderRadius: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 80,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: 120,
+    borderWidth: 1,
+    borderColor: '#0CBFBD',
+    shadowColor: '#0CBFBD',
+    shadowOffset: {
+      width: 3,
+      height: 5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   placeholder: {
-    width: 70,
-    height: 40,
-    backgroundColor: Colors.warning,
-    opacity: 0.5,
-    borderRadius: 20,
+    width: 75,
+    height: 45,
+    backgroundColor: Colors.background_placeholder,
+    opacity: 0.8,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
     marginRight: 20,
   },
   word: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 27,
+    fontWeight: '600',
+    textAlign: 'center',
+    lineHeight: 32,
+    color: Colors.text,
   },
 });
 
