@@ -10,18 +10,27 @@ type WordBoxProps = {
   isCorrect: boolean;
   onDrop?: (article: string, isCorrect: boolean) => void;
   isDragOver?: boolean;
+  selectedArticle?: string | null;
 };
 
 const WordBox = ({
   word,
   isDragOver = false,
   isCorrect = false,
+  selectedArticle = null,
 }: WordBoxProps) => {
   const viewRef = useRef<View>(null);
 
+  let boxColor = Colors.background_wordbox_shadow;
+  if (isCorrect) {
+    boxColor = Colors.background_wordbox_correct;
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.box}>
+      <View
+        style={[styles.box, { borderColor: boxColor, shadowColor: boxColor }]}
+      >
         <View ref={viewRef} style={styles.placeholder} />
         <ThemedText style={styles.word} numberOfLines={2} adjustsFontSizeToFit>
           {word}
@@ -47,8 +56,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minHeight: 120,
     borderWidth: 1,
-    borderColor: '#0CBFBD',
-    shadowColor: '#0CBFBD',
     shadowOffset: {
       width: 3,
       height: 5,

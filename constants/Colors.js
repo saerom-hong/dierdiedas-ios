@@ -8,6 +8,8 @@ export const Colors = {
   title: "#201e2b",
   background: "#045CE6",
   background_play: "#334B82",
-  background_wordbox: "#1C2444",
+  background_wordbox: "#1C2444", 
+  background_wordbox_shadow: "#0CBFBD",
+  background_wordbox_correct: "#28a745",
   background_placeholder: "#ececec",
 };

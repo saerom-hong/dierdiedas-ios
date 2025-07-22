@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProgressBar from 'react-native-progress/Bar';
@@ -10,10 +10,10 @@ import ThemedView from '@/components/ThemedView';
 import WordBox from '@/components/WordBox';
 import { Colors } from '@/constants/Colors';
 import {
-  GERMAN_ARTICLES,
-  GermanArticles,
-  VocabularyItem,
-} from '@/types/german';
+  VocabularyProvider,
+  useVocabulary,
+} from '@/contexts/VocabularyContext';
+import { GERMAN_ARTICLES, GermanArticles } from '@/types/german';
 
 const getArticleStyle = (article: string, styles: any) => {
   switch (article.toLowerCase()) {
@@ -29,12 +29,11 @@ const getArticleStyle = (article: string, styles: any) => {
 };
 
 const Play = () => {
+  const { vocabularyData, loading, currentWordIndex, setCurrentWordIndex } =
+    useVocabulary();
   const { level } = useLocalSearchParams<{ level: string }>();
   const router = useRouter();
   const [selectedArticle, setSelectedArticle] = useState<string | null>(null);
-  const [vocabularyData, setVocabularyData] = useState<VocabularyItem[]>([]);
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [isCorrect, setIsCorrect] = useState(false);
   const [wordBoxLayout, setWordBoxLayout] = useState<{
     x: number;
@@ -44,43 +43,6 @@ const Play = () => {
   } | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
-  useEffect(() => {
-    const loadVocabularyData = async () => {
-      try {
-        setLoading(true);
-
-        const vocabularyFiles: Record<string, () => Promise<VocabularyItem[]>> =
-          {
-            A1: async () =>
-              (await import('@/assets/data/voca_A1.json'))
-                .default as VocabularyItem[],
-            A2: async () =>
-              (await import('@/assets/data/voca_A2.json'))
-                .default as VocabularyItem[],
-            B1: async () =>
-              (await import('@/assets/data/voca_B1.json'))
-                .default as VocabularyItem[],
-            B2: async () =>
-              (await import('@/assets/data/voca_B2.json'))
-                .default as VocabularyItem[],
-          };
-
-        const data = await vocabularyFiles[level]();
-        setVocabularyData(data);
-        setCurrentWordIndex(0);
-      } catch (error) {
-        console.error('Error loading vocabulary data:', error);
-        setVocabularyData([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (level) {
-      loadVocabularyData();
-    }
-  }, [level]);
-
   const currentWord = vocabularyData[currentWordIndex];
   const correctArticle =
     (currentWord?.article as GermanArticles) || GermanArticles.Der;
@@ -89,21 +51,15 @@ const Play = () => {
       ? (currentWordIndex + 1) / vocabularyData.length
       : 0;
 
-  const handleArticleSelect = (article: string) => {
+  const handleArticleSelect = (article: string, isCorrect: boolean) => {
     setSelectedArticle(article);
-
-    // Check if the answer is correct
     setIsCorrect(isCorrect);
-
-    // Move to the next word after a delay
     setTimeout(() => {
       if (currentWordIndex < vocabularyData.length - 1) {
         setCurrentWordIndex(currentWordIndex + 1);
         setSelectedArticle(null);
         setIsCorrect(false);
       } else {
-        // Game completed - navigate to completion screen
-        console.log('Game completed!');
         router.push(`/(complete)/complete?level=${level}`);
       }
     }, 1000);
@@ -120,7 +76,6 @@ const Play = () => {
         x <= wordBoxLayout.x + wordBoxLayout.width &&
         y >= wordBoxLayout.y &&
         y <= wordBoxLayout.y + wordBoxLayout.height;
-
       setIsDragOver(isOver);
     }
   };
@@ -160,19 +115,16 @@ const Play = () => {
             {currentWordIndex + 1} / {vocabularyData.length}
           </ThemedText>
         </View>
-
         <View style={styles.mainContent}>
           <ThemedText style={styles.title}>Level {level}</ThemedText>
-
           <View style={styles.chipsContainer}>
             {GERMAN_ARTICLES.map((article) => {
               const articleStyle = getArticleStyle(article, styles);
-
               return (
                 <ArticleChip
                   key={article}
                   style={articleStyle}
-                  article={article as GermanArticles}
+                  article={article}
                   correctArticle={correctArticle}
                   onDragEnd={handleArticleSelect}
                   onDragStart={handleDragStart}
@@ -182,12 +134,12 @@ const Play = () => {
               );
             })}
           </View>
-
           <WordBox
             word={currentWord?.word || ''}
             isCorrect={isCorrect}
             correctArticle={correctArticle}
             isDragOver={isDragOver}
+            selectedArticle={selectedArticle}
           />
         </View>
       </ThemedView>
@@ -195,7 +147,17 @@ const Play = () => {
   );
 };
 
-export default Play;
+const PlayScreen = () => {
+  const { level } = useLocalSearchParams<{ level: string }>();
+  if (!level) return null;
+  return (
+    <VocabularyProvider level={level}>
+      <Play />
+    </VocabularyProvider>
+  );
+};
+
+export default PlayScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -215,7 +177,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontFamily: 'Tomorrow_600SemiBold',
     marginBottom: 60,
   },
   der: {
