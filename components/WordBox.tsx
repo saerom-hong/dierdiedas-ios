@@ -9,15 +9,15 @@ type WordBoxProps = {
   correctArticle: string;
   isCorrect: boolean;
   onDrop?: (article: string, isCorrect: boolean) => void;
-  isDragOver?: boolean;
-  selectedArticle?: string | null;
+  snappedArticle?: string | null;
+  isTransitioning?: boolean;
 };
 
 const WordBox = ({
   word,
-  isDragOver = false,
   isCorrect = false,
-  selectedArticle = null,
+  snappedArticle = null,
+  isTransitioning = false,
 }: WordBoxProps) => {
   const viewRef = useRef<View>(null);
 
@@ -26,12 +26,46 @@ const WordBox = ({
     boxColor = Colors.background_wordbox_correct;
   }
 
+  const getArticleStyle = (article: string) => {
+    switch (article.toLowerCase()) {
+      case 'der':
+        return { backgroundColor: Colors.chip_color_der };
+      case 'die':
+        return { backgroundColor: Colors.chip_color_die };
+      case 'das':
+        return { backgroundColor: Colors.chip_color_das };
+      default:
+        return {};
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View
-        style={[styles.box, { borderColor: boxColor, shadowColor: boxColor }]}
+        style={[
+          styles.box,
+          {
+            borderColor: boxColor,
+            shadowColor: boxColor,
+            shadowOffset: {
+              width: isCorrect ? 6 : 3,
+              height: isCorrect ? 10 : 5,
+            },
+            shadowOpacity: isCorrect ? 0.7 : 0.5,
+            shadowRadius: isCorrect ? 7.68 : 3.84,
+            elevation: isCorrect ? 10 : 5,
+          },
+        ]}
       >
-        <View ref={viewRef} style={styles.placeholder} />
+        <View ref={viewRef} style={styles.placeholder}>
+          {snappedArticle && !isTransitioning ? (
+            <View style={[styles.snappedChip, getArticleStyle(snappedArticle)]}>
+              <ThemedText style={styles.snappedChipText}>
+                {snappedArticle}
+              </ThemedText>
+            </View>
+          ) : null}
+        </View>
         <ThemedText style={styles.word} numberOfLines={2} adjustsFontSizeToFit>
           {word}
         </ThemedText>
@@ -56,23 +90,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minHeight: 120,
     borderWidth: 1,
-    shadowOffset: {
-      width: 3,
-      height: 5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   placeholder: {
-    width: 75,
-    height: 45,
+    width: 85,
+    height: 50,
     backgroundColor: Colors.background_placeholder,
     opacity: 0.8,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  snappedChip: {
+    width: 85,
+    height: 50,
+    opacity: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  snappedChipText: {
+    fontSize: 23,
+    fontFamily: 'Tomorrow_500Medium',
+    color: '#fff',
   },
   word: {
     fontSize: 27,

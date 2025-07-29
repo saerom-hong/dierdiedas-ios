@@ -4,16 +4,16 @@ import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProgressBar from 'react-native-progress/Bar';
 
-import ArticleChip from '@/components/ArticleChip';
-import ThemedText from '@/components/ThemedText';
-import ThemedView from '@/components/ThemedView';
-import WordBox from '@/components/WordBox';
-import { Colors } from '@/constants/Colors';
+import ArticleChip from '../../components/ArticleChip';
+import ThemedText from '../../components/ThemedText';
+import ThemedView from '../../components/ThemedView';
+import WordBox from '../../components/WordBox';
+import { Colors } from '../../constants/Colors';
 import {
   VocabularyProvider,
   useVocabulary,
-} from '@/contexts/VocabularyContext';
-import { GERMAN_ARTICLES, GermanArticles } from '@/types/german';
+} from '../../contexts/VocabularyContext';
+import { GERMAN_ARTICLES, GermanArticles } from '../../types/german';
 
 const getArticleStyle = (article: string, styles: any) => {
   switch (article.toLowerCase()) {
@@ -33,15 +33,9 @@ const Play = () => {
     useVocabulary();
   const { level } = useLocalSearchParams<{ level: string }>();
   const router = useRouter();
-  const [selectedArticle, setSelectedArticle] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [wordBoxLayout, setWordBoxLayout] = useState<{
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  } | null>(null);
-  const [isDragOver, setIsDragOver] = useState(false);
+  const [snappedArticle, setSnappedArticle] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentWord = vocabularyData[currentWordIndex];
   const correctArticle =
@@ -52,31 +46,27 @@ const Play = () => {
       : 0;
 
   const handleArticleSelect = (article: string, isCorrect: boolean) => {
-    setSelectedArticle(article);
     setIsCorrect(isCorrect);
-    setTimeout(() => {
-      if (currentWordIndex < vocabularyData.length - 1) {
-        setCurrentWordIndex(currentWordIndex + 1);
-        setSelectedArticle(null);
-        setIsCorrect(false);
-      } else {
-        router.push(`/(complete)/complete?level=${level}`);
-      }
-    }, 1000);
-  };
 
-  const handleDragStart = () => {
-    setIsDragOver(false);
-  };
+    if (isCorrect) {
+      setSnappedArticle(article);
 
-  const handleDragUpdate = (x: number, y: number) => {
-    if (wordBoxLayout) {
-      const isOver =
-        x >= wordBoxLayout.x &&
-        x <= wordBoxLayout.x + wordBoxLayout.width &&
-        y >= wordBoxLayout.y &&
-        y <= wordBoxLayout.y + wordBoxLayout.height;
-      setIsDragOver(isOver);
+      // Start transition after 1 second
+      setTimeout(() => {
+        setIsTransitioning(true);
+
+        // Move to next word after animation completes (additional 500ms for animation)
+        setTimeout(() => {
+          if (currentWordIndex < vocabularyData.length - 1) {
+            setCurrentWordIndex(currentWordIndex + 1);
+            setIsCorrect(false);
+            setSnappedArticle(null);
+            setIsTransitioning(false);
+          } else {
+            router.push(`/(complete)/complete?level=${level}`);
+          }
+        }, 500);
+      }, 1000);
     }
   };
 
@@ -120,6 +110,7 @@ const Play = () => {
           <View style={styles.chipsContainer}>
             {GERMAN_ARTICLES.map((article) => {
               const articleStyle = getArticleStyle(article, styles);
+              const isSnapped = snappedArticle === article;
               return (
                 <ArticleChip
                   key={article}
@@ -127,9 +118,8 @@ const Play = () => {
                   article={article}
                   correctArticle={correctArticle}
                   onDragEnd={handleArticleSelect}
-                  onDragStart={handleDragStart}
-                  onDragUpdate={handleDragUpdate}
-                  dropZoneLayout={wordBoxLayout}
+                  isSnapped={isSnapped}
+                  isTransitioning={isTransitioning}
                 />
               );
             })}
@@ -138,8 +128,8 @@ const Play = () => {
             word={currentWord?.word || ''}
             isCorrect={isCorrect}
             correctArticle={correctArticle}
-            isDragOver={isDragOver}
-            selectedArticle={selectedArticle}
+            snappedArticle={snappedArticle}
+            isTransitioning={isTransitioning}
           />
         </View>
       </ThemedView>

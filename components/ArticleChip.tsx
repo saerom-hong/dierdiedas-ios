@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -6,9 +6,10 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
-import { GermanArticles } from '@/types/german';
+import { GermanArticles } from '../types/german';
 import ThemedText from './ThemedText';
 
 type ArticleChipProps = {
@@ -16,13 +17,11 @@ type ArticleChipProps = {
   article: GermanArticles;
   correctArticle: GermanArticles;
   onDragEnd: (article: string, isCorrect: boolean) => void;
-  onDragStart?: () => void;
-  onDragUpdate?: (x: number, y: number) => void;
-  dropZoneLayout?: {
+  isSnapped?: boolean;
+  isTransitioning?: boolean;
+  snapPosition?: {
     x: number;
     y: number;
-    width: number;
-    height: number;
   } | null;
 };
 
@@ -31,64 +30,54 @@ const ArticleChip = ({
   article,
   correctArticle,
   onDragEnd,
-  onDragStart,
-  onDragUpdate,
-  dropZoneLayout,
+  isSnapped = false,
+  isTransitioning = false,
+  snapPosition = null,
 }: ArticleChipProps) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
-  const isOverDropZone = useSharedValue(false);
   const viewRef = useRef<Animated.View>(null);
+
+  // Handle transition animation
+  useEffect(() => {
+    if (isTransitioning && isSnapped) {
+      // Animate back to original position
+      translateX.value = withTiming(0, { duration: 500 });
+      translateY.value = withTiming(0, { duration: 500 });
+    }
+  }, [isTransitioning, isSnapped, translateX, translateY]);
 
   const panGesture = Gesture.Pan()
     .onStart(() => {
+      if (isSnapped || isTransitioning) return; // Prevent dragging if snapped or transitioning
       isDragging.value = true;
-      if (onDragStart) {
-        runOnJS(onDragStart)();
-      }
     })
     .onUpdate((event) => {
+      if (isSnapped || isTransitioning) return; // Prevent dragging if snapped or transitioning
       translateX.value = event.translationX;
       translateY.value = event.translationY;
-
-      if (onDragUpdate) {
-        runOnJS(onDragUpdate)(event.absoluteX, event.absoluteY);
-      }
-
-      // Check if over drop zone
-      if (dropZoneLayout) {
-        const chipCenterX = event.absoluteX;
-        const chipCenterY = event.absoluteY;
-
-        const isOver =
-          chipCenterX >= dropZoneLayout.x &&
-          chipCenterX <= dropZoneLayout.x + dropZoneLayout.width &&
-          chipCenterY >= dropZoneLayout.y &&
-          chipCenterY <= dropZoneLayout.y + dropZoneLayout.height;
-
-        isOverDropZone.value = isOver;
-      }
     })
     .onEnd(() => {
+      if (isSnapped || isTransitioning) return; // Prevent dragging if snapped or transitioning
       isDragging.value = false;
 
       if (article === correctArticle) {
-        // Successfully dropped on WordBox
-        console.log('isCorrect');
+        // Successfully dropped on WordBox - snap to position
+        console.log('isCorrect - snapping');
         runOnJS(onDragEnd)(article, true);
 
-        // Return to original position
-        translateX.value = withSpring(0);
-        translateY.value = withSpring(0);
+        // Snap to the specified position
+        if (snapPosition) {
+          translateX.value = withSpring(snapPosition.x);
+          translateY.value = withSpring(snapPosition.y);
+        }
       } else {
-        console.log('not correct');
+        console.log('not correct or not over drop zone');
         // Return to original position
         translateX.value = withSpring(0);
         translateY.value = withSpring(0);
       }
-
-      isOverDropZone.value = false;
     });
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -99,8 +88,14 @@ const ArticleChip = ({
         { scale: isDragging.value ? 1.1 : 1 },
       ],
       zIndex: isDragging.value ? 1000 : 1,
+      opacity: isSnapped && !isTransitioning ? 0 : 1, // Hide the chip if it's snapped and not transitioning
     };
   });
+
+  // Don't render if snapped and not transitioning
+  if (isSnapped && !isTransitioning) {
+    return null;
+  }
 
   return (
     <GestureDetector gesture={panGesture}>
