@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 
-import ThemedLink from '@/components/ThemedLink';
-import ThemedText from '@/components/ThemedText';
-import ThemedView from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
 import { useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
+import ThemedLink from '../../components/ThemedLink';
+import ThemedText from '../../components/ThemedText';
+import ThemedView from '../../components/ThemedView';
+import { Colors } from '../../constants/Colors';
 
 const Complete = () => {
   const animation = useRef<LottieView>(null);
@@ -17,7 +17,7 @@ const Complete = () => {
       <ThemedText style={styles.title}>Congratulations!</ThemedText>
       <LottieView
         ref={animation}
-        source={require('@/assets/animation/confetti.json')}
+        source={require('../../assets/animation/confetti.json')}
         autoPlay
         loop
         style={styles.confetti}

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Colors } from '@/constants/Colors';
-import { FontProvider } from '@/contexts/FontContext';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { Colors } from '../constants/Colors';
+import { FontProvider } from '../contexts/FontContext';
 
 export default function RootLayout() {
   return (

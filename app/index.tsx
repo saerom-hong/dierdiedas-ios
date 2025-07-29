@@ -3,9 +3,9 @@ import LottieView from 'lottie-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import ThemedText from '@/components/ThemedText';
-import ThemedView from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors';
+import ThemedText from '../components/ThemedText';
+import ThemedView from '../components/ThemedView';
+import { Colors } from '../constants/Colors';
 
 const Home = () => {
   const animation = useRef<LottieView>(null);
@@ -42,13 +42,12 @@ const Home = () => {
       <LottieView
         ref={animation}
         style={{
-          width: 200,
+          width: 300,
           height: 200,
           marginTop: 50,
         }}
-        source={require('@/assets/animation/main.json')}
+        source={require('../assets/animation/pacman.json')}
         autoPlay
-        loop
       />
       {showTitle && titleVisible && (
         <ThemedText title style={styles.title}>
@@ -73,20 +72,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 40,
+    fontSize: 45,
     fontFamily: 'Tomorrow_700Bold',
     color: Colors.text,
-    marginTop: 50,
+    marginTop: 20,
   },
   link: {
     backgroundColor: Colors.primary,
     padding: 15,
     borderRadius: 5,
     marginTop: 50,
-  },
-  testLink: {
-    backgroundColor: '#ff6b6b', // Different color to distinguish it
-    marginTop: 10,
   },
   buttonText: {
     color: 'white',

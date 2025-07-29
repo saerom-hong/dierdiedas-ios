@@ -10,11 +10,19 @@ import {
   Tomorrow_900Black,
   useFonts,
 } from '@expo-google-fonts/tomorrow';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 
-const FontContext = createContext();
+interface FontContextType {
+  fontsLoaded: boolean;
+}
 
-export const FontProvider = ({ children }) => {
+const FontContext = createContext<FontContextType | undefined>(undefined);
+
+interface FontProviderProps {
+  children: ReactNode;
+}
+
+export const FontProvider: React.FC<FontProviderProps> = ({ children }) => {
   const [fontsLoaded] = useFonts({
     Tomorrow_100Thin,
     Tomorrow_200ExtraLight,
@@ -34,10 +42,10 @@ export const FontProvider = ({ children }) => {
   );
 };
 
-export const useFontContext = () => {
+export const useFontContext = (): FontContextType => {
   const context = useContext(FontContext);
   if (!context) {
     throw new Error('useFontContext must be used within a FontProvider');
   }
   return context;
-}; 
+};
