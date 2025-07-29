@@ -6,12 +6,35 @@ import { StyleSheet } from 'react-native';
 import ThemedText from '../components/ThemedText';
 import ThemedView from '../components/ThemedView';
 import { Colors } from '../constants/Colors';
+import {
+  loadSounds,
+  playMainSound,
+  stopMainSound,
+  unloadSounds,
+} from '../utils/sound';
 
 const Home = () => {
   const animation = useRef<LottieView>(null);
   const [showTitle, setShowTitle] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [titleVisible, setTitleVisible] = useState(false);
+
+  const handlePlayGame = async () => {
+    await stopMainSound();
+  };
+
+  useEffect(() => {
+    const initializeSound = async () => {
+      await loadSounds();
+      await playMainSound();
+    };
+
+    initializeSound();
+
+    return () => {
+      unloadSounds();
+    };
+  }, []);
 
   useEffect(() => {
     const titleTimer = setTimeout(() => {
@@ -55,7 +78,7 @@ const Home = () => {
         </ThemedText>
       )}
       {showButton && (
-        <Link href="/level" style={styles.link}>
+        <Link href="/level" style={styles.link} onPress={handlePlayGame}>
           <ThemedText style={styles.buttonText}>Play Game</ThemedText>
         </Link>
       )}
@@ -70,6 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: 100,
   },
   title: {
     fontSize: 45,

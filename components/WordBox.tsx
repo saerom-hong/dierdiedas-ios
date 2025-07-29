@@ -59,7 +59,7 @@ const WordBox = ({
       >
         <View ref={viewRef} style={styles.placeholder}>
           {snappedArticle && !isTransitioning ? (
-            <View style={[styles.snappedChip, getArticleStyle(snappedArticle)]}>
+            <View style={[getArticleStyle(snappedArticle), styles.snappedChip]}>
               <ThemedText style={styles.snappedChipText}>
                 {snappedArticle}
               </ThemedText>
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     width: 85,
     height: 50,
     backgroundColor: Colors.background_placeholder,
-    opacity: 0.8,
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
   snappedChip: {
     width: 85,
     height: 50,
-    opacity: 1,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,

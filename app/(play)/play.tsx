@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProgressBar from 'react-native-progress/Bar';
@@ -14,6 +14,12 @@ import {
   useVocabulary,
 } from '../../contexts/VocabularyContext';
 import { GERMAN_ARTICLES, GermanArticles } from '../../types/german';
+import {
+  loadSounds,
+  playCorrectSound,
+  playWrongSound,
+  unloadSounds,
+} from '../../utils/sound';
 
 const getArticleStyle = (article: string, styles: any) => {
   switch (article.toLowerCase()) {
@@ -37,6 +43,16 @@ const Play = () => {
   const [snappedArticle, setSnappedArticle] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Load sounds when component mounts
+  useEffect(() => {
+    loadSounds();
+
+    // Cleanup sounds when component unmounts
+    return () => {
+      unloadSounds();
+    };
+  }, []);
+
   const currentWord = vocabularyData[currentWordIndex];
   const correctArticle =
     (currentWord?.article as GermanArticles) || GermanArticles.Der;
@@ -45,10 +61,12 @@ const Play = () => {
       ? (currentWordIndex + 1) / vocabularyData.length
       : 0;
 
-  const handleArticleSelect = (article: string, isCorrect: boolean) => {
+  const handleArticleSelect = async (article: string, isCorrect: boolean) => {
     setIsCorrect(isCorrect);
 
     if (isCorrect) {
+      // Play correct sound
+      await playCorrectSound();
       setSnappedArticle(article);
 
       // Start transition after 1 second
@@ -67,6 +85,9 @@ const Play = () => {
           }
         }, 500);
       }, 1000);
+    } else {
+      // Play wrong sound
+      await playWrongSound();
     }
   };
 

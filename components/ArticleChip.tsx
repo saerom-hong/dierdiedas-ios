@@ -74,6 +74,8 @@ const ArticleChip = ({
         }
       } else {
         console.log('not correct or not over drop zone');
+        // Call onDragEnd with isCorrect: false for wrong sound
+        runOnJS(onDragEnd)(article, false);
         // Return to original position
         translateX.value = withSpring(0);
         translateY.value = withSpring(0);
@@ -91,11 +93,6 @@ const ArticleChip = ({
       opacity: isSnapped && !isTransitioning ? 0 : 1, // Hide the chip if it's snapped and not transitioning
     };
   });
-
-  // Don't render if snapped and not transitioning
-  if (isSnapped && !isTransitioning) {
-    return null;
-  }
 
   return (
     <GestureDetector gesture={panGesture}>
