@@ -7,7 +7,7 @@ import ThemedText from './ThemedText';
 type WordBoxProps = {
   word: string;
   correctArticle: string;
-  isCorrect: boolean;
+  isCorrect?: boolean;
   onDrop?: (article: string, isCorrect: boolean) => void;
   snappedArticle?: string | null;
   isTransitioning?: boolean;
@@ -15,16 +15,37 @@ type WordBoxProps = {
 
 const WordBox = ({
   word,
-  isCorrect = false,
+  isCorrect,
   snappedArticle = null,
   isTransitioning = false,
 }: WordBoxProps) => {
   const viewRef = useRef<View>(null);
 
-  let boxColor = Colors.background_wordbox_shadow;
-  if (isCorrect) {
-    boxColor = Colors.background_wordbox_correct;
-  }
+  const getBoxStyle = () => {
+    const hasAnswer = isCorrect === true || isCorrect === false;
+
+    return {
+      borderColor:
+        isCorrect === true
+          ? Colors.background_wordbox_correct
+          : isCorrect === false
+          ? Colors.background_wordbox_incorrect
+          : Colors.background_wordbox_shadow,
+      shadowColor:
+        isCorrect === true
+          ? Colors.background_wordbox_correct
+          : isCorrect === false
+          ? Colors.background_wordbox_incorrect
+          : Colors.background_wordbox_shadow,
+      shadowOffset: {
+        width: hasAnswer ? 6 : 3,
+        height: hasAnswer ? 10 : 5,
+      },
+      shadowOpacity: hasAnswer ? 0.7 : 0.5,
+      shadowRadius: hasAnswer ? 7.68 : 3.84,
+      elevation: hasAnswer ? 10 : 5,
+    };
+  };
 
   const getArticleStyle = (article: string) => {
     switch (article.toLowerCase()) {
@@ -41,22 +62,7 @@ const WordBox = ({
 
   return (
     <View style={styles.container}>
-      <View
-        style={[
-          styles.box,
-          {
-            borderColor: boxColor,
-            shadowColor: boxColor,
-            shadowOffset: {
-              width: isCorrect ? 6 : 3,
-              height: isCorrect ? 10 : 5,
-            },
-            shadowOpacity: isCorrect ? 0.7 : 0.5,
-            shadowRadius: isCorrect ? 7.68 : 3.84,
-            elevation: isCorrect ? 10 : 5,
-          },
-        ]}
-      >
+      <View style={[styles.box, getBoxStyle()]}>
         <View ref={viewRef} style={styles.placeholder}>
           {snappedArticle && !isTransitioning ? (
             <View style={[getArticleStyle(snappedArticle), styles.snappedChip]}>

@@ -11,6 +11,7 @@ export interface ColorScheme {
   background_wordbox: string;
   background_wordbox_shadow: string;
   background_wordbox_correct: string;
+  background_wordbox_incorrect: string;
   background_placeholder: string;
 }
 
@@ -27,5 +28,6 @@ export const Colors: ColorScheme = {
   background_wordbox: "#1C2444", 
   background_wordbox_shadow: "#0CBFBD",
   background_wordbox_correct: "#28a745",
+  background_wordbox_incorrect: "#dc3545",
   background_placeholder: "#ececec",
 }; 

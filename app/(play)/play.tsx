@@ -39,7 +39,7 @@ const Play = () => {
     useVocabulary();
   const { level } = useLocalSearchParams<{ level: string }>();
   const router = useRouter();
-  const [isCorrect, setIsCorrect] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | undefined>(undefined);
   const [snappedArticle, setSnappedArticle] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -77,7 +77,7 @@ const Play = () => {
         setTimeout(() => {
           if (currentWordIndex < vocabularyData.length - 1) {
             setCurrentWordIndex(currentWordIndex + 1);
-            setIsCorrect(false);
+            setIsCorrect(undefined);
             setSnappedArticle(null);
             setIsTransitioning(false);
           } else {
@@ -88,6 +88,11 @@ const Play = () => {
     } else {
       // Play wrong sound
       await playWrongSound();
+      setIsCorrect(false);
+
+      setTimeout(() => {
+        setIsCorrect(undefined);
+      }, 500);
     }
   };
 
