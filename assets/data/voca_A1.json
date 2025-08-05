@@ -43,5 +43,210 @@
     "word": "Anrede",
     "article": "Die",
     "translation": "salutation"
+  },
+  {
+    "word": "Apfel",
+    "article": "Der",
+    "translation": "apple"
+  },
+  {
+    "word": "Auto",
+    "article": "Das",
+    "translation": "car"
+  },
+  {
+    "word": "Bahn",
+    "article": "Die",
+    "translation": "train"
+  },
+  {
+    "word": "Bäcker",
+    "article": "Der",
+    "translation": "baker"
+  },
+  {
+    "word": "Bäckerei",
+    "article": "Die",
+    "translation": "bakery"
+  },
+  {
+    "word": "Brot",
+    "article": "Das",
+    "translation": "bread"
+  },
+  {
+    "word": "Buch",
+    "article": "Das",
+    "translation": "book"
+  },
+  {
+    "word": "Computer",
+    "article": "Der",
+    "translation": "computer"
+  },
+  {
+    "word": "Datum",
+    "article": "Das",
+    "translation": "date"
+  },
+  {
+    "word": "Familie",
+    "article": "Die",
+    "translation": "family"
+  },
+  {
+    "word": "Geschichte",
+    "article": "Die",
+    "translation": "story"
+  },
+  {
+    "word": "Haus",
+    "article": "Das",
+    "translation": "house"
+  },
+  {
+    "word": "Information",
+    "article": "Die",
+    "translation": "information"
+  },
+  {
+    "word": "Jahr",
+    "article": "Das",
+    "translation": "year"
+  },
+  {
+    "word": "Kinder",
+    "article": "Die",
+    "translation": "children"
+  },
+  {
+    "word": "Küche",
+    "article": "Die",
+    "translation": "kitchen"
+  },
+  {
+    "word": "Laden",
+    "article": "Der",
+    "translation": "shop"
+  },
+  {
+    "word": "Mann",
+    "article": "Der",
+    "translation": "man"
+  },
+  {
+    "word": "Mutter",
+    "article": "Die",
+    "translation": "mother"
+  },
+  {
+    "word": "Name",
+    "article": "Der",
+    "translation": "name"
+  },
+  {
+    "word": "Nummer",
+    "article": "Die",
+    "translation": "number"
+  },
+  {
+    "word": "Ort",
+    "article": "Der",
+    "translation": "place"
+  },
+  {
+    "word": "Papa",
+    "article": "Der",
+    "translation": "dad"
+  },
+  {
+    "word": "Post",
+    "article": "Die",
+    "translation": "mail"
+  },
+  {
+    "word": "Preis",
+    "article": "Der",
+    "translation": "price"
+  },
+  {
+    "word": "Reise",
+    "article": "Die",
+    "translation": "journey"
+  },
+  {
+    "word": "Schule",
+    "article": "Die",
+    "translation": "school"
+  },
+  {
+    "word": "Stadt",
+    "article": "Die",
+    "translation": "city"
+  },
+  {
+    "word": "Straße",
+    "article": "Die",
+    "translation": "street"
+  },
+  {
+    "word": "Tag",
+    "article": "Der",
+    "translation": "day"
+  },
+  {
+    "word": "Telefon",
+    "article": "Das",
+    "translation": "telephone"
+  },
+  {
+    "word": "Uhr",
+    "article": "Die",
+    "translation": "clock"
+  },
+  {
+    "word": "Vater",
+    "article": "Der",
+    "translation": "father"
+  },
+  {
+    "word": "Wasser",
+    "article": "Das",
+    "translation": "water"
+  },
+  {
+    "word": "Woche",
+    "article": "Die",
+    "translation": "week"
+  },
+  {
+    "word": "Zeit",
+    "article": "Die",
+    "translation": "time"
+  },
+  {
+    "word": "Zimmer",
+    "article": "Das",
+    "translation": "room"
+  },
+  {
+    "word": "Zug",
+    "article": "Der",
+    "translation": "train"
+  },
+  {
+    "word": "Zahl",
+    "article": "Die",
+    "translation": "number"
+  },
+  {
+    "word": "Zeitung",
+    "article": "Die",
+    "translation": "newspaper"
+  },
+  {
+    "word": "Zentrum",
+    "article": "Das",
+    "translation": "center"
   }
 ]

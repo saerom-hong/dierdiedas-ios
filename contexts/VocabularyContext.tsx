@@ -39,7 +39,9 @@ export const VocabularyProvider: React.FC<{
             .default as VocabularyItem[],
       };
       const data = await vocabularyFiles[level]();
-      setVocabularyData(data);
+      const shuffledData = [...data].sort(() => Math.random() - 0.5);
+
+      setVocabularyData(shuffledData);
       setCurrentWordIndex(0);
     } catch (error) {
       console.error('Error loading vocabulary data:', error);

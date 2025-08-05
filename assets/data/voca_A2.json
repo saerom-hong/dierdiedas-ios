@@ -48,5 +48,205 @@
     "word": "Kinder",
     "article": "Die",
     "translation": "children"
+  },
+  {
+    "word": "Abend",
+    "article": "Der",
+    "translation": "evening"
+  },
+  {
+    "word": "Angst",
+    "article": "Die",
+    "translation": "fear"
+  },
+  {
+    "word": "Bereich",
+    "article": "Der",
+    "translation": "area"
+  },
+  {
+    "word": "Bildung",
+    "article": "Die",
+    "translation": "education"
+  },
+  {
+    "word": "Ding",
+    "article": "Das",
+    "translation": "thing"
+  },
+  {
+    "word": "Erfahrung",
+    "article": "Die",
+    "translation": "experience"
+  },
+  {
+    "word": "Frage",
+    "article": "Die",
+    "translation": "question"
+  },
+  {
+    "word": "Geld",
+    "article": "Das",
+    "translation": "money"
+  },
+  {
+    "word": "Glaube",
+    "article": "Der",
+    "translation": "belief"
+  },
+  {
+    "word": "Hilfe",
+    "article": "Die",
+    "translation": "help"
+  },
+  {
+    "word": "Interesse",
+    "article": "Das",
+    "translation": "interest"
+  },
+  {
+    "word": "Kampf",
+    "article": "Der",
+    "translation": "fight"
+  },
+  {
+    "word": "Kunst",
+    "article": "Die",
+    "translation": "art"
+  },
+  {
+    "word": "Leben",
+    "article": "Das",
+    "translation": "life"
+  },
+  {
+    "word": "Liebe",
+    "article": "Die",
+    "translation": "love"
+  },
+  {
+    "word": "Macht",
+    "article": "Die",
+    "translation": "power"
+  },
+  {
+    "word": "Mensch",
+    "article": "Der",
+    "translation": "person"
+  },
+  {
+    "word": "Möglichkeit",
+    "article": "Die",
+    "translation": "possibility"
+  },
+  {
+    "word": "Nacht",
+    "article": "Die",
+    "translation": "night"
+  },
+  {
+    "word": "Name",
+    "article": "Der",
+    "translation": "name"
+  },
+  {
+    "word": "Natur",
+    "article": "Die",
+    "translation": "nature"
+  },
+  {
+    "word": "Ort",
+    "article": "Der",
+    "translation": "place"
+  },
+  {
+    "word": "Problem",
+    "article": "Das",
+    "translation": "problem"
+  },
+  {
+    "word": "Recht",
+    "article": "Das",
+    "translation": "right"
+  },
+  {
+    "word": "Sache",
+    "article": "Die",
+    "translation": "matter"
+  },
+  {
+    "word": "Schule",
+    "article": "Die",
+    "translation": "school"
+  },
+  {
+    "word": "Sprache",
+    "article": "Die",
+    "translation": "language"
+  },
+  {
+    "word": "Stadt",
+    "article": "Die",
+    "translation": "city"
+  },
+  {
+    "word": "Stunde",
+    "article": "Die",
+    "translation": "hour"
+  },
+  {
+    "word": "Tag",
+    "article": "Der",
+    "translation": "day"
+  },
+  {
+    "word": "Teil",
+    "article": "Der",
+    "translation": "part"
+  },
+  {
+    "word": "Thema",
+    "article": "Das",
+    "translation": "topic"
+  },
+  {
+    "word": "Uhr",
+    "article": "Die",
+    "translation": "clock"
+  },
+  {
+    "word": "Verhältnis",
+    "article": "Das",
+    "translation": "relationship"
+  },
+  {
+    "word": "Weg",
+    "article": "Der",
+    "translation": "way"
+  },
+  {
+    "word": "Welt",
+    "article": "Die",
+    "translation": "world"
+  },
+  {
+    "word": "Werk",
+    "article": "Das",
+    "translation": "work"
+  },
+  {
+    "word": "Woche",
+    "article": "Die",
+    "translation": "week"
+  },
+  {
+    "word": "Zeit",
+    "article": "Die",
+    "translation": "time"
+  },
+  {
+    "word": "Ziel",
+    "article": "Das",
+    "translation": "goal"
   }
 ]
