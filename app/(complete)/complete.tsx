@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { useLocalSearchParams } from 'expo-router';
@@ -7,10 +7,19 @@ import ThemedLink from '../../components/ThemedLink';
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
 import { Colors } from '../../constants/Colors';
+import { playYaySound } from '../../utils/sound';
 
 const Complete = () => {
   const animation = useRef<LottieView>(null);
   const { level } = useLocalSearchParams<{ level: string }>();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      playYaySound();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <ThemedView style={styles.container}>
@@ -40,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 200,
+    paddingTop: '60%',
   },
   confetti: {
     width: 500,
@@ -55,7 +64,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontFamily: 'Tomorrow_600SemiBold',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: 20,
@@ -70,6 +79,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 5,
-    marginTop: 100,
+    marginTop: 50,
   },
 });

@@ -3,6 +3,7 @@ import { Audio } from 'expo-av';
 let correctSound: Audio.Sound | null = null;
 let wrongSound: Audio.Sound | null = null;
 let mainSound: Audio.Sound | null = null;
+let yaySound: Audio.Sound | null = null;
 
 export const loadSounds = async () => {
   try {
@@ -24,6 +25,12 @@ export const loadSounds = async () => {
       { isLooping: true }
     );
     mainSound = main;
+
+    // Load yay sound
+    const { sound: yay } = await Audio.Sound.createAsync(
+      require('../assets/sounds/yay.wav')
+    );
+    yaySound = yay;
   } catch (error) {
     console.error('Error loading sounds:', error);
   }
@@ -59,6 +66,16 @@ export const playMainSound = async () => {
   }
 };
 
+export const playYaySound = async () => {
+  try {
+    if (yaySound) {
+      await yaySound.replayAsync();
+    }
+  } catch (error) {
+    console.error('Error playing yay sound:', error);
+  }
+};
+
 export const stopMainSound = async () => {
   try {
     if (mainSound) {
@@ -82,6 +99,10 @@ export const unloadSounds = async () => {
     if (mainSound) {
       await mainSound.unloadAsync();
       mainSound = null;
+    }
+    if (yaySound) {
+      await yaySound.unloadAsync();
+      yaySound = null;
     }
   } catch (error) {
     console.error('Error unloading sounds:', error);
