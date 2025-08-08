@@ -1,5 +1,6 @@
 import { VocabularyItem } from '@/types/german';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { loadProgress, saveProgress } from '@/utils/storage';
 
 interface VocabularyContextType {
   vocabularyData: VocabularyItem[];
@@ -38,11 +39,24 @@ export const VocabularyProvider: React.FC<{
           (await import('@/assets/data/voca_B2.json'))
             .default as VocabularyItem[],
       };
-      const data = await vocabularyFiles[level]();
-      const shuffledData = [...data].sort(() => Math.random() - 0.5);
-
-      setVocabularyData(shuffledData);
-      setCurrentWordIndex(0);
+      // Try to resume saved progress first
+      const saved = await loadProgress(level);
+      if (saved && Array.isArray(saved.vocabularyData)) {
+        setVocabularyData(saved.vocabularyData);
+        setCurrentWordIndex(
+          Math.min(
+            Math.max(0, saved.currentWordIndex || 0),
+            Math.max(0, saved.vocabularyData.length - 1)
+          )
+        );
+      } else {
+        const data = await vocabularyFiles[level]();
+        const shuffledData = [...data].sort(() => Math.random() - 0.5);
+        setVocabularyData(shuffledData);
+        setCurrentWordIndex(0);
+        // Save initial progress so order is preserved
+        await saveProgress(level, shuffledData, 0);
+      }
     } catch (error) {
       console.error('Error loading vocabulary data:', error);
       setVocabularyData([]);
@@ -56,6 +70,13 @@ export const VocabularyProvider: React.FC<{
       loadVocabulary(level);
     }
   }, [level]);
+
+  // Persist progress whenever data or index changes (and not during initial loading)
+  useEffect(() => {
+    if (!loading && level && vocabularyData.length > 0) {
+      saveProgress(level, vocabularyData, currentWordIndex);
+    }
+  }, [loading, level, vocabularyData, currentWordIndex]);
 
   return (
     <VocabularyContext.Provider
@@ -79,3 +100,7 @@ export const useVocabulary = () => {
   }
   return context;
 };
+
+// Persist progress whenever data or index changes and not loading
+// Note: This effect needs to live inside the provider component scope
+// but outside of its return; to achieve that, we export a wrapped provider below.

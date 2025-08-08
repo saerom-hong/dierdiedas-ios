@@ -12,10 +12,7 @@ const Level = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
 
   const handleLevelSelect = (level: string) => {
-    router.push({
-      pathname: '/play',
-      params: { level },
-    });
+    router.push({ pathname: '/play', params: { level } });
   };
 
   return (

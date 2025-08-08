@@ -20,6 +20,7 @@ import {
   playWrongSound,
   unloadSounds,
 } from '../../utils/sound';
+import { clearProgress } from '@/utils/storage';
 
 const getArticleStyle = (article: string, styles: any) => {
   switch (article.toLowerCase()) {
@@ -81,6 +82,8 @@ const Play = () => {
             setSnappedArticle(null);
             setIsTransitioning(false);
           } else {
+            // Completed the level; clear saved progress
+            clearProgress(level as string);
             router.push(`/(complete)/complete?level=${level}`);
           }
         }, 500);
