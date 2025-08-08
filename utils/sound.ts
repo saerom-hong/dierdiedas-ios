@@ -1,36 +1,23 @@
-import { Audio } from 'expo-av';
+import { createAudioPlayer } from 'expo-audio';
 
-let correctSound: Audio.Sound | null = null;
-let wrongSound: Audio.Sound | null = null;
-let mainSound: Audio.Sound | null = null;
-let yaySound: Audio.Sound | null = null;
+type Player = ReturnType<typeof createAudioPlayer>;
+
+let correctSound: Player | null = null;
+let wrongSound: Player | null = null;
+let mainSound: Player | null = null;
+let yaySound: Player | null = null;
 
 export const loadSounds = async () => {
   try {
-    // Load correct sound
-    const { sound: correct } = await Audio.Sound.createAsync(
-      require('../assets/sounds/correct.wav')
-    );
-    correctSound = correct;
-
-    // Load wrong sound
-    const { sound: wrong } = await Audio.Sound.createAsync(
-      require('../assets/sounds/wrong.wav')
-    );
-    wrongSound = wrong;
-
-    // Load main sound with looping enabled
-    const { sound: main } = await Audio.Sound.createAsync(
-      require('../assets/sounds/main.wav'),
-      { isLooping: true }
-    );
-    mainSound = main;
-
-    // Load yay sound
-    const { sound: yay } = await Audio.Sound.createAsync(
-      require('../assets/sounds/yay.wav')
-    );
-    yaySound = yay;
+    // Create players for each sound asset
+    correctSound = createAudioPlayer(require('../assets/sounds/correct.wav'));
+    wrongSound = createAudioPlayer(require('../assets/sounds/wrong.wav'));
+    mainSound = createAudioPlayer(require('../assets/sounds/main.wav'));
+    if (mainSound) {
+      // Enable looping for background/main sound
+      mainSound.loop = true;
+    }
+    yaySound = createAudioPlayer(require('../assets/sounds/yay.wav'));
   } catch (error) {
     console.error('Error loading sounds:', error);
   }
@@ -39,7 +26,8 @@ export const loadSounds = async () => {
 export const playCorrectSound = async () => {
   try {
     if (correctSound) {
-      await correctSound.replayAsync();
+      await correctSound.seekTo(0);
+      correctSound.play();
     }
   } catch (error) {
     console.error('Error playing correct sound:', error);
@@ -49,7 +37,8 @@ export const playCorrectSound = async () => {
 export const playWrongSound = async () => {
   try {
     if (wrongSound) {
-      await wrongSound.replayAsync();
+      await wrongSound.seekTo(0);
+      wrongSound.play();
     }
   } catch (error) {
     console.error('Error playing wrong sound:', error);
@@ -59,7 +48,8 @@ export const playWrongSound = async () => {
 export const playMainSound = async () => {
   try {
     if (mainSound) {
-      await mainSound.replayAsync();
+      await mainSound.seekTo(0);
+      mainSound.play();
     }
   } catch (error) {
     console.error('Error playing main sound:', error);
@@ -69,7 +59,8 @@ export const playMainSound = async () => {
 export const playYaySound = async () => {
   try {
     if (yaySound) {
-      await yaySound.replayAsync();
+      await yaySound.seekTo(0);
+      yaySound.play();
     }
   } catch (error) {
     console.error('Error playing yay sound:', error);
@@ -79,7 +70,8 @@ export const playYaySound = async () => {
 export const stopMainSound = async () => {
   try {
     if (mainSound) {
-      await mainSound.stopAsync();
+      mainSound.pause();
+      await mainSound.seekTo(0);
     }
   } catch (error) {
     console.error('Error stopping main sound:', error);
@@ -89,22 +81,22 @@ export const stopMainSound = async () => {
 export const unloadSounds = async () => {
   try {
     if (correctSound) {
-      await correctSound.unloadAsync();
+      correctSound.remove();
       correctSound = null;
     }
     if (wrongSound) {
-      await wrongSound.unloadAsync();
+      wrongSound.remove();
       wrongSound = null;
     }
     if (mainSound) {
-      await mainSound.unloadAsync();
+      mainSound.remove();
       mainSound = null;
     }
     if (yaySound) {
-      await yaySound.unloadAsync();
+      yaySound.remove();
       yaySound = null;
     }
   } catch (error) {
     console.error('Error unloading sounds:', error);
   }
-}; 
+};
