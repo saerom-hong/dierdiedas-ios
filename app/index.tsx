@@ -65,11 +65,11 @@ const Home = () => {
       <LottieView
         ref={animation}
         style={{
-          width: 300,
-          height: 200,
-          marginTop: 50,
+          width: 250,
+          height: 250,
+          marginTop: 10,
         }}
-        source={require('../assets/animation/pacman.json')}
+        source={require('../assets/animation/main_cube.json')}
         autoPlay
       />
       {showTitle && titleVisible && (
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontFamily: 'Tomorrow_700Bold',
     color: Colors.text,
-    marginTop: 20,
+    marginTop: 10,
   },
   link: {
     backgroundColor: Colors.primary,
