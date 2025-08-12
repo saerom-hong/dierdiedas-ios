@@ -1,9 +1,10 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProgressBar from 'react-native-progress/Bar';
 
+import { clearProgress } from '@/utils/storage';
 import ArticleChip from '../../components/ArticleChip';
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
@@ -20,15 +21,21 @@ import {
   playWrongSound,
   unloadSounds,
 } from '../../utils/sound';
-import { clearProgress } from '@/utils/storage';
 
-const getArticleStyle = (article: string, styles: any) => {
-  switch (article.toLowerCase()) {
-    case 'der':
+import type { StyleProp, ViewStyle } from 'react-native';
+type ArticleStyles = {
+  der: StyleProp<ViewStyle>;
+  die: StyleProp<ViewStyle>;
+  das: StyleProp<ViewStyle>;
+};
+
+const getArticleStyle = (article: GermanArticles, styles: ArticleStyles) => {
+  switch (article) {
+    case GermanArticles.Der:
       return styles.der;
-    case 'die':
+    case GermanArticles.Die:
       return styles.die;
-    case 'das':
+    case GermanArticles.Das:
       return styles.das;
     default:
       return {};
@@ -41,8 +48,11 @@ const Play = () => {
   const { level } = useLocalSearchParams<{ level: string }>();
   const router = useRouter();
   const [isCorrect, setIsCorrect] = useState<boolean | undefined>(undefined);
-  const [snappedArticle, setSnappedArticle] = useState<string | null>(null);
+  const [snappedArticle, setSnappedArticle] = useState<GermanArticles | null>(
+    null
+  );
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   // Load sounds when component mounts
   useEffect(() => {
@@ -62,7 +72,10 @@ const Play = () => {
       ? (currentWordIndex + 1) / vocabularyData.length
       : 0;
 
-  const handleArticleSelect = async (article: string, isCorrect: boolean) => {
+  const handleArticleSelect = async (
+    article: GermanArticles,
+    isCorrect: boolean
+  ) => {
     setIsCorrect(isCorrect);
 
     if (isCorrect) {
@@ -71,31 +84,42 @@ const Play = () => {
       setSnappedArticle(article);
 
       // Start transition after 1 second
-      setTimeout(() => {
+      const outer = setTimeout(() => {
         setIsTransitioning(true);
 
         // Move to next word after animation completes (additional 500ms for animation)
-        setTimeout(() => {
-          if (currentWordIndex < vocabularyData.length - 1) {
-            setCurrentWordIndex(currentWordIndex + 1);
-            setIsCorrect(undefined);
-            setSnappedArticle(null);
-            setIsTransitioning(false);
-          } else {
-            // Completed the level; clear saved progress
+        const inner = setTimeout(() => {
+          setCurrentWordIndex((prev) => {
+            const isLast = prev >= vocabularyData.length - 1;
+            if (!isLast) {
+              return prev + 1;
+            }
+            return prev;
+          });
+          setIsCorrect(undefined);
+          setSnappedArticle(null);
+          setIsTransitioning(false);
+          // If last, navigate
+          if (currentWordIndex >= vocabularyData.length - 1) {
             clearProgress(level as string);
             router.push(`/(complete)/complete?level=${level}`);
           }
         }, 500);
+        // Track inner timeout for cleanup
+        timeoutsRef.current.push(inner);
       }, 1000);
+      // Track outer timeout for cleanup
+      timeoutsRef.current.push(outer);
     } else {
       // Play wrong sound
       await playWrongSound();
       setIsCorrect(false);
 
-      setTimeout(() => {
+      const reset = setTimeout(() => {
         setIsCorrect(undefined);
       }, 500);
+      // Track reset timeout for cleanup
+      timeoutsRef.current.push(reset);
     }
   };
 
@@ -137,7 +161,7 @@ const Play = () => {
         <View style={styles.mainContent}>
           <ThemedText style={styles.title}>Level {level}</ThemedText>
           <View style={styles.chipsContainer}>
-            {GERMAN_ARTICLES.map((article) => {
+            {GERMAN_ARTICLES.map((article: GermanArticles) => {
               const articleStyle = getArticleStyle(article, styles);
               const isSnapped = snappedArticle === article;
               return (
@@ -156,7 +180,6 @@ const Play = () => {
           <WordBox
             word={currentWord?.word || ''}
             isCorrect={isCorrect}
-            correctArticle={correctArticle}
             snappedArticle={snappedArticle}
             isTransitioning={isTransitioning}
           />

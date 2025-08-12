@@ -1,15 +1,14 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { GermanArticles } from '@/types/german';
 import { Colors } from '../constants/Colors';
 import ThemedText from './ThemedText';
 
 type WordBoxProps = {
   word: string;
-  correctArticle: string;
   isCorrect?: boolean;
-  onDrop?: (article: string, isCorrect: boolean) => void;
-  snappedArticle?: string | null;
+  snappedArticle?: GermanArticles | null;
   isTransitioning?: boolean;
 };
 
@@ -19,8 +18,6 @@ const WordBox = ({
   snappedArticle = null,
   isTransitioning = false,
 }: WordBoxProps) => {
-  const viewRef = useRef<View>(null);
-
   const getBoxStyle = () => {
     const hasAnswer = isCorrect === true || isCorrect === false;
 
@@ -63,7 +60,7 @@ const WordBox = ({
   return (
     <View style={styles.container}>
       <View style={[styles.box, getBoxStyle()]}>
-        <View ref={viewRef} style={styles.placeholder}>
+        <View style={styles.placeholder}>
           {snappedArticle && !isTransitioning ? (
             <View style={[getArticleStyle(snappedArticle), styles.snappedChip]}>
               <ThemedText style={styles.snappedChipText}>

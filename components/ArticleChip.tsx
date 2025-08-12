@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -16,7 +16,7 @@ type ArticleChipProps = {
   style: StyleProp<ViewStyle>;
   article: GermanArticles;
   correctArticle: GermanArticles;
-  onDragEnd: (article: string, isCorrect: boolean) => void;
+  onDragEnd: (article: GermanArticles, isCorrect: boolean) => void;
   isSnapped?: boolean;
   isTransitioning?: boolean;
   snapPosition?: {
@@ -37,7 +37,6 @@ const ArticleChip = ({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
-  const viewRef = useRef<Animated.View>(null);
 
   // Handle transition animation
   useEffect(() => {
@@ -64,7 +63,6 @@ const ArticleChip = ({
 
       if (article === correctArticle) {
         // Successfully dropped on WordBox - snap to position
-        console.log('isCorrect - snapping');
         runOnJS(onDragEnd)(article, true);
 
         // Snap to the specified position
@@ -73,7 +71,6 @@ const ArticleChip = ({
           translateY.value = withSpring(snapPosition.y);
         }
       } else {
-        console.log('not correct or not over drop zone');
         // Call onDragEnd with isCorrect: false for wrong sound
         runOnJS(onDragEnd)(article, false);
         // Return to original position
@@ -96,7 +93,7 @@ const ArticleChip = ({
 
   return (
     <GestureDetector gesture={panGesture}>
-      <Animated.View ref={viewRef} style={[styles.container, animatedStyle]}>
+      <Animated.View style={[styles.container, animatedStyle]}>
         <Animated.View style={[styles.chip, style]}>
           <ThemedText style={styles.text}>{article}</ThemedText>
         </Animated.View>
