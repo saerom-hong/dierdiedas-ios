@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProgressBar from 'react-native-progress/Bar';
+import TopBar from '../../components/TopBar';
 
 import { clearProgress } from '@/utils/storage';
 import ArticleChip from '../../components/ArticleChip';
@@ -43,8 +44,12 @@ const getArticleStyle = (article: GermanArticles, styles: ArticleStyles) => {
 };
 
 const Play = () => {
-  const { vocabularyData, loading, currentWordIndex, setCurrentWordIndex } =
-    useVocabulary();
+  const {
+    vocabularyData,
+    currentWordIndex,
+    setCurrentWordIndex,
+    loadVocabulary,
+  } = useVocabulary();
   const { level } = useLocalSearchParams<{ level: string }>();
   const router = useRouter();
   const [isCorrect, setIsCorrect] = useState<boolean | undefined>(undefined);
@@ -123,15 +128,15 @@ const Play = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <ThemedView style={styles.container}>
-        <View style={styles.mainContent}>
-          <ThemedText style={styles.title}>Loading...</ThemedText>
-        </View>
-      </ThemedView>
-    );
-  }
+  const handleReplay = () => {
+    if (!level) return;
+    clearProgress(level as string);
+    loadVocabulary(level as string);
+  };
+
+  const handleGoHome = () => {
+    router.replace('/');
+  };
 
   if (vocabularyData.length === 0) {
     return (
@@ -149,6 +154,12 @@ const Play = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemedView style={styles.container}>
         <View style={styles.topSection}>
+          <TopBar
+            onHome={handleGoHome}
+            onReplay={handleReplay}
+            disabled={isTransitioning}
+            style={styles.topBar}
+          />
           <ProgressBar
             progress={progress}
             width={200}
@@ -221,6 +232,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Tomorrow_600SemiBold',
     marginBottom: 60,
+  },
+  topBar: {
+    position: 'absolute',
+    top: -60,
+    left: 0,
+    right: 0,
   },
   der: {
     backgroundColor: Colors.chip_color_der,

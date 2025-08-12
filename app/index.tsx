@@ -69,8 +69,9 @@ const Home = () => {
           height: 250,
           marginTop: 10,
         }}
-        source={require('../assets/animation/main_cube.json')}
+        source={require('../assets/animation/main_cube_faster.json')}
         autoPlay
+        speed={2}
       />
       {showTitle && titleVisible && (
         <ThemedText title style={styles.title}>
