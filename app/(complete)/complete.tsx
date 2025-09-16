@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet, useWindowDimensions } from 'react-native';
 
 import { useLocalSearchParams } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -12,6 +12,8 @@ import { playYaySound } from '../../utils/sound';
 const Complete = () => {
   const animation = useRef<LottieView>(null);
   const { level } = useLocalSearchParams<{ level: string }>();
+  const { width } = useWindowDimensions();
+  const isTablet = Platform.OS === 'ios' && width >= 768;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,7 +31,11 @@ const Complete = () => {
         source={require('../../assets/animation/confetti.json')}
         autoPlay
         loop
-        style={styles.confetti}
+        resizeMode="cover"
+        style={[
+          styles.confetti,
+          isTablet && { transform: [{ scale: 0.7 }, { translateY: -40 }] },
+        ]}
       />
       <ThemedText style={styles.subtitle}>
         You have completed the level{' '}
@@ -52,12 +58,9 @@ const styles = StyleSheet.create({
     paddingTop: '60%',
   },
   confetti: {
-    width: 500,
-    height: 500,
-    marginVertical: 20,
     position: 'absolute',
     top: 0,
-    left: -50,
+    left: 0,
     right: 0,
     bottom: 0,
   },
