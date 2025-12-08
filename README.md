@@ -29,6 +29,7 @@ Choose your level (A1–B2), drag the correct article onto the word, and instant
 <td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 51 40" src="https://github.com/user-attachments/assets/e2e1a961-2476-4d25-b7a7-71aca461a7f3" /></td>
 </tr>   
 </table>
+
 <br>
 
 ## Get started
@@ -64,12 +65,25 @@ You can start developing by editing the files inside the **app** directory. This
 <strong>• Can I request new words?</strong><br>Yes! Send us an email, and we’ll consider adding them.
 
 <br>
+<br>
 
 ## Contact 
 
-If you need help, found a bug, or have suggestions, feel free to contact us:
+If you need help, found a bug, or have suggestions, feel free to contact me:
 
 <strong> banthanti@gmail.com </strong>
+
+<br>
+
+## Privacy Policy 
+
+<strong>Last updated: 8th December 2025</strong>
+
+- DerDieDasX does not collect, store, or share any personal data.
+- No analytics, no tracking, no third-party SDKs.
+- No information is transmitted to any server.
+
+<p>If you have any questions, email me at <strong> banthanti@gmail.com </strong></p>
 
 <br>
 
