@@ -1,6 +1,35 @@
-# Welcome to your Expo app 👋
+# DerDieDas⚔️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Memorising German noun articles doesn’t have to be painful. DerDieDasX turns “der / die / das” into a simple and addictive game you can play anywhere.
+Choose your level (A1–B2), drag the correct article onto the word, and instantly see whether you’re right. Fast, clean, and designed for real progress — one word at a time.
+
+<br>
+
+## Features 
+- Level-based learning (A1–B2)
+- Instant feedback for every answer
+- Replay levels to improve your scores
+- Smooth drag-and-drop gameplay
+- Hundreds of curated German nouns
+- Minimalist, modern design
+
+<br>
+
+## 🎥 App Overview
+<table>
+<tr>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 52 00" src="https://github.com/user-attachments/assets/3b36a654-64ab-4d70-a7f2-51ec169930f7" /></td>
+   
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 46 17" src="https://github.com/user-attachments/assets/f98c3203-b2b0-46a5-8a33-766f94eb1de0" /></td>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 46 36" src="https://github.com/user-attachments/assets/dbf9dcdc-e790-4c2d-a6cc-97a3cb9186d6" /></td>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 46 45" src="https://github.com/user-attachments/assets/0e28081c-f78b-4687-8647-bee917c066a3" /></td>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 47 18" src="https://github.com/user-attachments/assets/1a231597-df44-43a5-a7cc-ef080f06a430" /></td>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 48 07" src="https://github.com/user-attachments/assets/e557bd41-481e-45dc-bf40-bd3ca76dc270" /></td>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 49 10" src="https://github.com/user-attachments/assets/6eefa3ad-ac18-432f-8dcb-c10b60e0c17c" /></td>
+<td><img width="200" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-27 at 14 51 40" src="https://github.com/user-attachments/assets/e2e1a961-2476-4d25-b7a7-71aca461a7f3" /></td>
+</tr>   
+</table>
+<br>
 
 ## Get started
 
@@ -25,20 +54,25 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Development
+<br>
 
-This is a German language learning app called "DerDieDas" that helps users learn German articles through interactive gameplay.
+## FAQ
 
-## Learn more
+<strong>• Why is the article marked wrong?</strong><br>Some German nouns can have regional variations, but we follow the standard Duden article.
 
-To learn more about developing your project with Expo, look at the following resources:
+<br>
+<strong>• Can I request new words?</strong><br>Yes! Send us an email, and we’ll consider adding them.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+<br>
 
-## Join the community
+## Contact 
 
-Join our community of developers creating universal apps.
+If you need help, found a bug, or have suggestions, feel free to contact us:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<strong> banthanti@gmail.com </strong>
+
+<br>
+
+## Version
+
+<p>Current app version: 1.0</p>
