@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ios-app",
-    "slug": "ios-app",
+    "name": "DerDieDasX",
+    "slug": "derdiedasx",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "iosapp",
+    "scheme": "derdiedasx",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
