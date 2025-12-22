@@ -134,8 +134,8 @@ const Play = () => {
     loadVocabulary(level as string);
   };
 
-  const handleGoHome = () => {
-    router.replace('/');
+  const handleLevelSelection = () => {
+    router.replace('/(level)/level');
   };
 
   if (vocabularyData.length === 0) {
@@ -155,7 +155,7 @@ const Play = () => {
       <ThemedView style={styles.container}>
         <View style={styles.topSection}>
           <TopBar
-            onHome={handleGoHome}
+            onLevelSelection={handleLevelSelection}
             onReplay={handleReplay}
             disabled={isTransitioning}
             style={styles.topBar}
@@ -190,6 +190,7 @@ const Play = () => {
           </View>
           <WordBox
             word={currentWord?.word || ''}
+            translation={currentWord?.translation || ''}
             isCorrect={isCorrect}
             snappedArticle={snappedArticle}
             isTransitioning={isTransitioning}

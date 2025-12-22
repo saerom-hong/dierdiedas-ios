@@ -75,7 +75,7 @@ const Home = () => {
       />
       {showTitle && titleVisible && (
         <ThemedText title style={styles.title}>
-          DerDieDas
+          DerDieDas⚔️
         </ThemedText>
       )}
       {showButton && (

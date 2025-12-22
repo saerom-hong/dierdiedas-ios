@@ -7,6 +7,7 @@ import ThemedText from './ThemedText';
 
 type WordBoxProps = {
   word: string;
+  translation: string;
   isCorrect?: boolean;
   snappedArticle?: GermanArticles | null;
   isTransitioning?: boolean;
@@ -14,6 +15,7 @@ type WordBoxProps = {
 
 const WordBox = ({
   word,
+  translation,
   isCorrect,
   snappedArticle = null,
   isTransitioning = false,
@@ -60,17 +62,32 @@ const WordBox = ({
   return (
     <View style={styles.container}>
       <View style={[styles.box, getBoxStyle()]}>
-        <View style={styles.placeholder}>
-          {snappedArticle && !isTransitioning ? (
-            <View style={[getArticleStyle(snappedArticle), styles.snappedChip]}>
-              <ThemedText style={styles.snappedChipText}>
-                {snappedArticle}
-              </ThemedText>
-            </View>
-          ) : null}
+        <View style={styles.wordRow}>
+          <View style={styles.placeholder}>
+            {snappedArticle && !isTransitioning ? (
+              <View
+                style={[getArticleStyle(snappedArticle), styles.snappedChip]}
+              >
+                <ThemedText style={styles.snappedChipText}>
+                  {snappedArticle}
+                </ThemedText>
+              </View>
+            ) : null}
+          </View>
+          <ThemedText
+            style={styles.word}
+            numberOfLines={2}
+            adjustsFontSizeToFit
+          >
+            {word}
+          </ThemedText>
         </View>
-        <ThemedText style={styles.word} numberOfLines={2} adjustsFontSizeToFit>
-          {word}
+        <ThemedText
+          style={styles.translation}
+          numberOfLines={2}
+          adjustsFontSizeToFit
+        >
+          ({translation})
         </ThemedText>
       </View>
     </View>
@@ -80,7 +97,7 @@ const WordBox = ({
 const styles = StyleSheet.create({
   container: {
     width: '90%',
-    marginTop: 50,
+    marginTop: 40,
     maxWidth: 350,
   },
   box: {
@@ -88,11 +105,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 20,
     paddingVertical: 80,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 120,
     borderWidth: 1,
+  },
+  wordRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   placeholder: {
     width: 85,
@@ -125,6 +147,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 32,
     color: Colors.text,
+  },
+  translation: {
+    fontSize: 21,
+    fontWeight: '400',
+    color: Colors.text,
+    marginTop: 15,
+    opacity: 0.7,
   },
 });
 

@@ -11,14 +11,14 @@ import {
 import { Colors } from '../constants/Colors';
 
 type TopBarProps = {
-  onHome: () => void;
+  onLevelSelection: () => void;
   onReplay: () => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 };
 
 const TopBar: React.FC<TopBarProps> = ({
-  onHome,
+  onLevelSelection,
   onReplay,
   disabled = false,
   style,
@@ -27,8 +27,8 @@ const TopBar: React.FC<TopBarProps> = ({
     <View style={[styles.container, style]}>
       <TouchableOpacity
         accessibilityRole="button"
-        accessibilityLabel="Go back home"
-        onPress={onHome}
+        accessibilityLabel="Go back to level selection"
+        onPress={onLevelSelection}
         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         style={styles.iconButton}
         disabled={disabled}
