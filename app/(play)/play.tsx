@@ -7,6 +7,7 @@ import TopBar from '../../components/TopBar';
 
 import { clearProgress } from '@/utils/storage';
 import ArticleChip from '../../components/ArticleChip';
+import PlayTutorial from '../../components/PlayTutorial';
 import ThemedText from '../../components/ThemedText';
 import ThemedView from '../../components/ThemedView';
 import WordBox from '../../components/WordBox';
@@ -15,6 +16,7 @@ import {
   VocabularyProvider,
   useVocabulary,
 } from '../../contexts/VocabularyContext';
+import usePlayTutorial from '../../hooks/usePlayTutorial';
 import { GERMAN_ARTICLES, GermanArticles } from '../../types/german';
 import {
   loadSounds,
@@ -58,6 +60,7 @@ const Play = () => {
   );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const { showTutorial, dismissTutorial, tutorialPulse } = usePlayTutorial();
 
   // Load sounds when component mounts
   useEffect(() => {
@@ -82,6 +85,9 @@ const Play = () => {
     isCorrect: boolean
   ) => {
     setIsCorrect(isCorrect);
+    if (showTutorial) {
+      dismissTutorial();
+    }
 
     if (isCorrect) {
       // Play correct sound
@@ -188,6 +194,11 @@ const Play = () => {
               );
             })}
           </View>
+          <PlayTutorial
+            visible={showTutorial}
+            pulse={tutorialPulse}
+            onDismiss={dismissTutorial}
+          />
           <WordBox
             word={currentWord?.word || ''}
             translation={currentWord?.translation || ''}

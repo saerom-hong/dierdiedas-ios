@@ -5,9 +5,15 @@ import { useFontContext } from '../contexts/FontContext';
 
 interface ThemedTextProps extends TextProps {
   title?: boolean;
+  darkmode?: boolean;
 }
 
-const ThemedText: React.FC<ThemedTextProps> = ({ style, title, ...props }) => {
+const ThemedText: React.FC<ThemedTextProps> = ({
+  style,
+  title,
+  darkmode,
+  ...props
+}) => {
   const { fontsLoaded } = useFontContext();
 
   if (!fontsLoaded) {
@@ -20,7 +26,7 @@ const ThemedText: React.FC<ThemedTextProps> = ({ style, title, ...props }) => {
     <Text
       style={[
         {
-          color: theme.text,
+          color: darkmode ? theme.text_dark : theme.text,
           fontSize: title ? 40 : 18,
           fontFamily: title ? 'Tomorrow_700Bold' : 'Tomorrow_400Regular',
         },
