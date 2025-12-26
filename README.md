@@ -87,6 +87,13 @@ If you need help, found a bug, or have suggestions, feel free to contact me:
 
 <br>
 
+## Credit Music: 
+Intro Music: 
+<a href="https://freesound.org/people/Timbre/sounds/625206/">a bit crunchier remix of josefpres's Freesound#625185.flac</a> by <a href="https://freesound.org/people/Timbre/">Timbre</a> | License: <a href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution NonCommercial 4.0</a><br>
+<a href="https://freesound.org/people/josefpres/sounds/625185/">8 bit game loop 005  simple mix 1 long 120 bpm.wav</a> by <a href="https://freesound.org/people/josefpres/">josefpres</a> | License: <a href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
+
+<br>
+
 ## Version
 
 <p>Current app version: 1.0</p>
